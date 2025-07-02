@@ -1,0 +1,114 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct Medicine {
+    string name;
+    string company;
+    float price;
+    int quantity;
+};
+
+vector<Medicine> inventory;
+
+void addMedicine() {
+    Medicine med;
+    cout << "Enter medicine name: ";
+    cin >> med.name;
+    cout << "Enter company: ";
+    cin >> med.company;
+    cout << "Enter price: ";
+    cin >> med.price;
+    cout << "Enter quantity: ";
+    cin >> med.quantity;
+    inventory.push_back(med);
+    cout << "Medicine added successfully!\n";
+}
+
+void displayAll() {
+    cout << "\n--- Inventory List ---\n";
+    for (auto& med : inventory) {
+        cout << "Name: " << med.name
+             << ", Company: " << med.company
+             << ", Price: " << med.price
+             << ", Quantity: " << med.quantity << endl;
+    }
+}
+
+void searchMedicine() {
+    string name;
+    cout << "Enter medicine name to search: ";
+    cin >> name;
+    bool found = false;
+    for (auto& med : inventory) {
+        if (med.name == name) {
+            cout << "Medicine Found!\n";
+            cout << "Name: " << med.name
+                 << ", Company: " << med.company
+                 << ", Price: " << med.price
+                 << ", Quantity: " << med.quantity << endl;
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+        cout << "Medicine not found.\n";
+}
+
+void updateMedicine() {
+    string name;
+    cout << "Enter medicine name to update: ";
+    cin >> name;
+    for (auto& med : inventory) {
+        if (med.name == name) {
+            cout << "Enter new price: ";
+            cin >> med.price;
+            cout << "Enter new quantity: ";
+            cin >> med.quantity;
+            cout << "Medicine updated successfully!\n";
+            return;
+        }
+    }
+    cout << "Medicine not found.\n";
+}
+
+void deleteMedicine() {
+    string name;
+    cout << "Enter medicine name to delete: ";
+    cin >> name;
+    for (auto it = inventory.begin(); it != inventory.end(); ++it) {
+        if (it->name == name) {
+            inventory.erase(it);
+            cout << "Medicine deleted successfully!\n";
+            return;
+        }
+    }
+    cout << "Medicine not found.\n";
+}
+
+int main() {
+    int choice;
+    do {
+        cout << "\nPharmacy Inventory Manager\n";
+        cout << "1. Add Medicine\n";
+        cout << "2. Display All Medicines\n";
+        cout << "3. Search Medicine\n";
+        cout << "4. Update Medicine\n";
+        cout << "5. Delete Medicine\n";
+        cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1: addMedicine(); break;
+            case 2: displayAll(); break;
+            case 3: searchMedicine(); break;
+            case 4: updateMedicine(); break;
+            case 5: deleteMedicine(); break;
+            case 0: cout << "Exiting...\n"; break;
+            default: cout << "Invalid choice!\n";
+        }
+    } while (choice != 0);
+
+    return 0;
+}
